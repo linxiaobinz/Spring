@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--    注册-->
+    <!--    对象创建-->
+
+    <bean class="org.springframework.context.support.ConversionServiceFactoryBean" id="conversionService">
+        <property name="converters">
+            <set>
+                <ref bean="convert1"/>
+            </set>
+        </property>
+    </bean>
+    <bean class="Beans" id="beans">
+        <property name="driver" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <bean class="Beanaop" id="beanaop">
+
+    </bean>
+<bean id="person" class="Person">
+    <property name="name" value="aaa"/>
+    <property name="date1" value="2020-01-01"/>
+</bean>
+    <bean class="Convertq" id="convert1"></bean>
+<!--deviced代理-->
+<bean class="befor" id="befor"></bean>
+    <bean class="UserServiceImp" id="imp"></bean>
+<!--    所有方法假如切入点-->
+    <aop:config>
+        <aop:pointcut id="pc" expression="execution(* *(..))"/>
+        <aop:advisor advice-ref="befor" pointcut-ref="pc"/>
+    </aop:config>
+</beans>
